@@ -1,17 +1,24 @@
 import BotCommand from '../BotCommand';
 import { CommandRunBag } from '../BotCommand';
 
-export default class Echo extends BotCommand{
+export default class GWD extends BotCommand{
     constructor(){
         super({
-            name:'echo',
-            description:'Replies with whatever is sent to it',
-            usage: 'echo <message>',
+            name:'gwd',
+            description:'Withdraws money from the guild',
+            usage: 'gwd <amount>',
             minParams:1,
         });
     }
 
     run(bag:CommandRunBag){
-        bag.message.channel.sendMessage(bag.message.author.username+' says '+bag.params.join(' '));
+        const amount = bag.params[0];
+        const giveTo = bag.message.author.id;
+
+        bag.message.channel.sendMessage('#!gwd '+amount);
+
+        setTimeout(function() {
+            bag.message.channel.sendMessage(`#!donate <@${giveTo}> ${amount}`);
+        },2000);
     }
 }
