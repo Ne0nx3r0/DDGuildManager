@@ -54,6 +54,11 @@ export default class DDGuildManagerBot{
             return;
         }
 
+        //My own message
+        if(message.author.id == this.client.user.id){
+            return;
+        }
+
         //Not a channel I listen to
         if(this.channelUIDs.indexOf(message.channel.id) == -1){
             return;
