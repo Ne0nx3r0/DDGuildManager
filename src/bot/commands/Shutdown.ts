@@ -14,6 +14,8 @@ export default class Shutdown extends BotCommand{
     run(bag:CommandRunBag){
         bag.message.channel.sendMessage('Shutting down until manually restarted, '+bag.message.author.username);
 
+        this.log(bag,'shutdown');
+
         setTimeout(function(){
             bag.bot.client.destroy();
 

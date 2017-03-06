@@ -15,6 +15,8 @@ export default class GWD extends BotCommand{
         const amount = bag.params[0];
         const giveTo = bag.message.author.id;
 
+        this.log(bag,'give them '+amount+' gold');
+
         bag.message.channel.sendMessage('#!gwd '+amount);
 
         setTimeout(function() {

@@ -17,6 +17,10 @@ export default class BotCommand{
     run(bag:CommandRunBag){
         throw this.name+' does not implement run()';
     }
+
+    log(bag:CommandRunBag,msg:string){
+        bag.log(bag.message.author.username+' ('+bag.message.author.username+') had me '+msg);
+    }
 }
 
 export interface CommandBag{
@@ -26,7 +30,7 @@ export interface CommandBag{
     minParams:number;
 }
 
-export interface CommandRespondFunc{
+export interface LoggingFunction{
     (msg:string):void;
 }
 
@@ -34,4 +38,5 @@ export interface CommandRunBag{
     message:Message;
     params:Array<string>;
     bot:DDGuildManagerBot;
+    log:LoggingFunction;
 }

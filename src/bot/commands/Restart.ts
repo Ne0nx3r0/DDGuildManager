@@ -14,6 +14,8 @@ export default class Restart extends BotCommand{
     run(bag:CommandRunBag){
         bag.message.channel.sendMessage('restarting, '+bag.message.author.username);
 
+        this.log(bag,'restart');
+
         setTimeout(function(){
             process.exit(0);
         },1000);

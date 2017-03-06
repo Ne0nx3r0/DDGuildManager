@@ -9,6 +9,8 @@ export default class DDGuildManagerBot{
     client:Client;
     ownerUIDs:Array<string>;
     channelUIDs:Array<string>;
+    loggingChannel:TextChannel;
+    loggingChannelUID:string;
     mainChannel:TextChannel;
     commands:Map<string,BotCommand>;
     prefix:string;
@@ -17,6 +19,9 @@ export default class DDGuildManagerBot{
         this.ownerUIDs = bag.ownerUIDs;
         this.channelUIDs = bag.channelUIDs;
         this.prefix = bag.prefix;
+        this.loggingChannelUID = bag.loggingChannelUID;
+
+        this.log = this.log.bind(this);
 
         this.commands = new Map();
 
@@ -46,6 +51,7 @@ export default class DDGuildManagerBot{
         this.log(this.client.user.username+ ': now online');
 
         this.mainChannel = this.client.channels.get(this.channelUIDs[0]) as TextChannel;
+        this.loggingChannel = this.client.channels.get(this.loggingChannelUID) as TextChannel;
     }
 
     handleMessage(message:Message){
@@ -90,7 +96,8 @@ export default class DDGuildManagerBot{
         command.run({
             params: params,
             message: message,
-            bot: this
+            bot: this,
+            log: this.log
         });
     }
 
@@ -100,5 +107,7 @@ export default class DDGuildManagerBot{
 
     log(msg:string){
         console.log('['+this.client.user.username+'] '+msg);
+
+        this.loggingChannel.sendMessage(msg);
     }
 }

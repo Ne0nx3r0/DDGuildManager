@@ -15,6 +15,8 @@ export default class GWD extends BotCommand{
         const commandToForward = bag.params.join(' ');
         const giveTo = bag.message.author.id;
 
+        this.log(bag,'give them '+commandToForward);
+
         bag.message.channel.sendMessage('#!gwd '+commandToForward);
 
         setTimeout(function() {
