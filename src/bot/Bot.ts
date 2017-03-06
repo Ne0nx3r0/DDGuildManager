@@ -46,8 +46,6 @@ export default class DDGuildManagerBot{
         this.log(this.client.user.username+ ': now online');
 
         this.mainChannel = this.client.channels.get(this.channelUIDs[0]) as TextChannel;
-
-        this.mainChannel.sendMessage("I'm online!");
     }
 
     handleMessage(message:Message){
@@ -62,23 +60,32 @@ export default class DDGuildManagerBot{
         }
 
         //Not someone I listen to
-        if(this.ownerUIDs.indexOf(message.author.id)){
+        if(this.ownerUIDs.indexOf(message.author.id) == -1){
+            message.channel.sendMessage('I don\'t know you, '+message.author.username);
+
             return;
         }
 
         const messageStr = message.content.substr(this.prefix.length);
         const params = messageStr.split(' ');
         
-        const commandName = params[0];
+        const commandName = params.shift().toUpperCase();
         const command = this.commands.get(commandName);
 
         if(!command){
             return;
         }
 
+        if(command.minParams > params.length){
+            message.channel.sendMessage('Usage: '+command.usage);
+
+            return;
+        }
+
         command.run({
             params: params,
             message: message,
+            bot: this
         });
     }
 

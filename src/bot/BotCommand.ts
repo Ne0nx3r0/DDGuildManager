@@ -1,14 +1,17 @@
 import { Message } from 'discord.js';
+import DDGuildManagerBot from './Bot';
 
 export default class BotCommand{
     name:string;
     description:string;
     usage:string;
+    minParams:number;
 
     constructor(bag:CommandBag){
         this.name = bag.name;
         this.description = bag.description;
         this.usage = bag.usage;
+        this.minParams = bag.minParams;
     }
 
     run(bag:CommandRunBag){
@@ -20,6 +23,7 @@ export interface CommandBag{
     name:string;
     description:string;
     usage:string;
+    minParams:number;
 }
 
 export interface CommandRespondFunc{
@@ -29,4 +33,5 @@ export interface CommandRespondFunc{
 export interface CommandRunBag{
     message:Message;
     params:Array<string>;
+    bot:DDGuildManagerBot;
 }

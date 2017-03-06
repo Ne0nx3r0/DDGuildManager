@@ -7,6 +7,7 @@ export default class Echo extends BotCommand{
             name:'echo',
             description:'Replies with whatever is sent to it',
             usage: 'echo <message>',
+            minParams:1,
         });
     }
 
