@@ -17,7 +17,7 @@ export default class GWD extends BotCommand{
 
         this.log(bag,'give them '+commandToForward);
 
-        bag.message.channel.sendMessage('#!gwd '+commandToForward);
+        bag.message.channel.sendMessage('#!gwditem '+commandToForward);
 
         setTimeout(function() {
             bag.message.channel.sendMessage(`#!idonate <@${giveTo}> ${commandToForward}`);
