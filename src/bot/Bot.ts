@@ -8,16 +8,13 @@ import * as Commands from './ActiveCommands';
 export default class DDGuildManagerBot{
     client:Client;
     ownerUIDs:Array<string>;
-    channelUIDs:Array<string>;
     loggingChannel:TextChannel;
     loggingChannelUID:string;
-    mainChannel:TextChannel;
     commands:Map<string,BotCommand>;
     prefix:string;
 
     constructor(bag:BotConfig){
         this.ownerUIDs = bag.ownerUIDs;
-        this.channelUIDs = bag.channelUIDs;
         this.prefix = bag.prefix;
         this.loggingChannelUID = bag.loggingChannelUID;
 
@@ -50,7 +47,6 @@ export default class DDGuildManagerBot{
     handleReady(){
         this.log(this.client.user.username+ ': now online');
 
-        this.mainChannel = this.client.channels.get(this.channelUIDs[0]) as TextChannel;
         this.loggingChannel = this.client.channels.get(this.loggingChannelUID) as TextChannel;
     }
 
@@ -62,11 +58,6 @@ export default class DDGuildManagerBot{
 
         //My own message
         if(message.author.id == this.client.user.id){
-            return;
-        }
-
-        //Not a channel I listen to
-        if(this.channelUIDs.indexOf(message.channel.id) == -1){
             return;
         }
 

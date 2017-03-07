@@ -15,10 +15,7 @@ bots.push({
         '161366532427874304',//MistyGlowy
         '243182871018340353',//Guzma
     ],
-    channelUIDs: [
-        '277333052211068928',//chiller#general
-        '288074331228078082',//chiller#bot-testing
-    ],
+    loggingChannelUID:'put logging channel uid here',
 });
 
 //  ^ ^ ^ ^ ^ ^ ^
@@ -32,5 +29,5 @@ export interface BotConfig{
     prefix:string;
     token:string;
     ownerUIDs:Array<string>;
-    channelUIDs:Array<string>;
+    loggingChannelUID:string;
 }
