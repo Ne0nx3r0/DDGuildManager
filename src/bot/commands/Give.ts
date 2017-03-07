@@ -20,7 +20,7 @@ export default class GWD extends BotCommand{
             return;
         }
 
-        this.log(bag,`give ${giveTo.id}(${giveTo.username}) ${commandToForward}`);
+        this.log(bag,`give ${giveTo.id} (${giveTo.username}) ${commandToForward}`);
 
         bag.message.channel.sendMessage('#!gwditem '+commandToForward);
 
