@@ -4,10 +4,12 @@ import { Client, Message, TextChannel } from 'discord.js';
 import { BotConfig } from "../../Config";
 import BotCommand from './BotCommand';
 import * as Commands from './ActiveCommands';
+import Winston from 'winston';
 
 export default class DDGuildManagerBot{
     client:Client;
     ownerUIDs:Array<string>;
+    logger:Winston;
     loggingChannel:TextChannel;
     loggingChannelUID:string;
     commands:Map<string,BotCommand>;
@@ -20,17 +22,18 @@ export default class DDGuildManagerBot{
 
         this.log = this.log.bind(this);
 
+        this.logger = new (Winston.Logger)({
+            transports: [
+                new (Winston.transports.Console)()
+            ]
+        });
+
         this.commands = new Map();
 
         Object.keys(Commands).forEach((commandName)=>{
             const command:BotCommand = new Commands[commandName];
 
             this.commands.set(command.name.toUpperCase(),command);
-
-/*          command.aliases.forEach((aliasStr)=>{
-                this.commands.set(aliasStr.toUpperCase(),command);
-            });
-*/
         });
 
         this.client = new Client();
@@ -45,6 +48,13 @@ export default class DDGuildManagerBot{
     }
 
     handleReady(){
+        this.logger.configure({
+            transports: [
+                new (Winston.transports.Console)(),
+                new (Winston.transports.File)({ filename: 'logs/'+this.client.user.id+'.txt' })
+            ]
+        });
+
         this.log(this.client.user.username+ ': now online');
 
         this.loggingChannel = this.client.channels.get(this.loggingChannelUID) as TextChannel;
@@ -99,6 +109,8 @@ export default class DDGuildManagerBot{
     log(msg:string){
         console.log('['+this.client.user.username+'] '+msg);
 
-        this.loggingChannel.sendMessage(msg);
+        if(this.loggingChannel){
+            this.loggingChannel.sendMessage(msg);
+        }
     }
 }
