@@ -4,12 +4,12 @@ import { Client, Message, TextChannel } from 'discord.js';
 import { BotConfig } from "../../Config";
 import BotCommand from './BotCommand';
 import * as Commands from './ActiveCommands';
-import Winston from 'winston';
+const Winston = require('winston');
 
 export default class DDGuildManagerBot{
     client:Client;
     ownerUIDs:Array<string>;
-    logger:Winston;
+    logger:any;
     loggingChannel:TextChannel;
     loggingChannelUID:string;
     commands:Map<string,BotCommand>;
@@ -112,5 +112,7 @@ export default class DDGuildManagerBot{
         if(this.loggingChannel){
             this.loggingChannel.sendMessage(msg);
         }
+
+        this.logger.info(msg);
     }
 }
