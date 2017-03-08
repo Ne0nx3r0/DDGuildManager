@@ -73,14 +73,14 @@ export default class DDGuildManagerBot{
 
         //Not someone I listen to
         if(this.ownerUIDs.indexOf(message.author.id) == -1){
-            message.channel.sendMessage('I don\'t know you, '+message.author.username);
+           // message.channel.sendMessage('I don\'t know you, '+message.author.username);
 
             return;
         }
 
         const messageStr = message.content.substr(this.prefix.length);
-        const params = messageStr.split(' ');
-        
+        const params = resolveArgs(messageStr);
+
         const commandName = params.shift().toUpperCase();
         const command = this.commands.get(commandName);
 
@@ -115,4 +115,14 @@ export default class DDGuildManagerBot{
 
         this.logger.info(msg);
     }
+}
+
+function resolveArgs(msg:string){
+    let regex = /("([^"]+)")|('([^']+)')|\S+/g,
+        matches = [],
+        match;
+
+    while((match = regex.exec(msg)) !== null) matches.push(match[4] || match[2] || match[0]);
+
+    return this.args = matches;
 }
