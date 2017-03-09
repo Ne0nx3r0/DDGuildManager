@@ -124,5 +124,5 @@ function resolveArgs(msg:string){
 
     while((match = regex.exec(msg)) !== null) matches.push(match[4] || match[2] || match[0]);
 
-    return this.args = matches;
+    return matches;
 }
