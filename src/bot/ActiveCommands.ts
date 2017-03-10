@@ -7,3 +7,4 @@ export { default as GWD } from "./commands/GWD";
 export { default as GWDItem } from "./commands/GWDItem";
 export { default as Pay } from "./commands/Pay";
 export { default as Give } from "./commands/Give";
+export { default as Here } from "./commands/Here";
