@@ -20,7 +20,7 @@ export default class Pay extends BotCommand{
             return;
         }
 
-        this.log(bag,`pay ${giveTo.id} (${giveTo.username}) ${amount} gold`);
+        this.log(bag,`pay ${giveTo.username} (${giveTo.id})  ${amount} gold`);
 
         bag.message.channel.sendMessage('#!gwd '+amount);
 

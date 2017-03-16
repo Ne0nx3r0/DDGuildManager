@@ -19,7 +19,7 @@ export default class BotCommand{
     }
 
     log(bag:CommandRunBag,msg:string){
-        bag.log(bag.message.author.id+' ('+bag.message.author.username+') had me '+msg);
+        bag.log(bag.message.author.username+' ('+bag.message.author.id+') had me '+msg);
     }
 }
 
