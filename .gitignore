@@ -58,3 +58,5 @@ Config.ts
 npm-debug.log.*
 
 logs/*.txt
+
+save/*.json

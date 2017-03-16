@@ -4,6 +4,9 @@ import { Client, Message, TextChannel } from 'discord.js';
 import { BotConfig } from "../../Config";
 import BotCommand from './BotCommand';
 import * as Commands from './ActiveCommands';
+import {readFile as FSReadFile} from 'fs';
+import { BotSave, GetSave, SetSave } from './Save';
+
 const Winston = require('winston');
 
 export default class DDGuildManagerBot{
@@ -11,14 +14,13 @@ export default class DDGuildManagerBot{
     ownerUIDs:Array<string>;
     logger:any;
     loggingChannel:TextChannel;
-    loggingChannelUID:string;
     commands:Map<string,BotCommand>;
     prefix:string;
+    save:BotSave;
 
     constructor(bag:BotConfig){
         this.ownerUIDs = bag.ownerUIDs;
         this.prefix = bag.prefix;
-        this.loggingChannelUID = bag.loggingChannelUID;
 
         this.log = this.log.bind(this);
 
@@ -57,7 +59,18 @@ export default class DDGuildManagerBot{
 
         this.log(this.client.user.username+ ': now online');
 
-        this.loggingChannel = this.client.channels.get(this.loggingChannelUID) as TextChannel;
+        (async()=>{
+            try{
+                this.save = await GetSave(this.client.user.id);
+
+                this.loggingChannel = this.client.channels.get(this.save.logChannel) as TextChannel; 
+
+                this.setPlayingGame(this.save.playingGame);     
+            }
+            catch(ex){
+                this.logger.error(ex);
+            }
+        })();
     }
 
     handleMessage(message:Message){
@@ -102,8 +115,8 @@ export default class DDGuildManagerBot{
         });
     }
 
-    setPlayingGame(){
-
+    setPlayingGame(str:string){
+        this.client.user.setGame(str);
     }
 
     log(msg:string){
@@ -114,6 +127,14 @@ export default class DDGuildManagerBot{
         }
 
         this.logger.info(msg);
+    }
+
+    setLoggingChannel(channel:TextChannel){
+        this.save.logChannel = channel.id;
+
+        SetSave(this.client.user.id,this.save);
+
+        this.loggingChannel = channel;
     }
 }
 
