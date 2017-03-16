@@ -117,6 +117,10 @@ export default class DDGuildManagerBot{
 
     setPlayingGame(str:string){
         this.client.user.setGame(str);
+
+        this.save.playingGame = str;
+        
+        SetSave(this.client.user.id,this.save);
     }
 
     log(msg:string){

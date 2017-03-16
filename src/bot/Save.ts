@@ -32,7 +32,7 @@ function ReadFile(filename:string): Promise<string>{
 
 function WriteFile(fileName:string, save:BotSave): Promise<void>{
     return new Promise<void>((resolve, reject) =>{
-        fs.writeFile(fileName, save, (err) => {
+        fs.writeFile(fileName, JSON.stringify(save), (err) => {
             if (err){
                 reject(err);    
             }
