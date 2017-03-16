@@ -8,3 +8,4 @@ export { default as GWDItem } from "./commands/GWDItem";
 export { default as Pay } from "./commands/Pay";
 export { default as Give } from "./commands/Give";
 export { default as SetPlaying } from "./commands/SetPlaying";
+export { default as Here } from "./commands/Here";
