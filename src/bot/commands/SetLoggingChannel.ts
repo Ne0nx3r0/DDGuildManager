@@ -15,8 +15,16 @@ export default class SetLoggingChannel extends BotCommand{
     run(bag:CommandRunBag){
         const channel = bag.message.mentions.channels.first();
 
+        if(!channel){
+            bag.message.channel.sendMessage(`Invalid channel, ${bag.message.author.username}\nUsage: ${this.usage}`);
+
+            return;
+        }
+
+        this.log(bag,`switch my logging channel to ${channel} (${channel.id})`);
+
         bag.bot.setLoggingChannel(channel as TextChannel);
 
-        bag.message.channel.sendMessage(`Now logging in ${channel.name} (${channel.id})`);
+        bag.message.channel.sendMessage(`Now logging in ${channel} (${channel.id})`);
     }
 }
